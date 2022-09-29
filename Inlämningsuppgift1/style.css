@@ -1,0 +1,19 @@
+body{
+    display:flex;
+    margin:0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1{
+    font-size: 35px;
+}
+p{
+    font-size: 20px;
+}
+.guess {
+    width: 70%;
+    height:30px;
+}
