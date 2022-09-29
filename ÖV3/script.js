@@ -33,5 +33,5 @@ tip = (sum, percent) => {
 let total = sum + sum * percent;
 return total;
 }
-console.log(tip(10, 15))
+console.log(tip(10, 0.05))
 
