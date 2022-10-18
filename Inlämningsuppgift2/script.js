@@ -14,25 +14,57 @@
 // Du ska även consol logga ett meddelande med vilket av fälten som inte är korrekt ifyllda.
 // När man har fyllt i alla fälten korrekt och trycker på "validate" så ska du dölja felmeddelandet längst ner igen och även skriva ut ett success meddelande i consolen och skapa ett user objekt som har följande fält: firstName, lastName, email, password. Detta objekt ska också skrivas ut i consolen
 
-const form = document.querySelector('#validationForm')
+const form = document.getElementById('validationForm');
+const firstName = document.getElementById('firstName');
+const lastName = document.getElementById('lastName');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const password2 = document.getElementById('repeatPassword');
+const errorMessage = document.getElementById('validation-feedback');
+const terms = document.getElementById('terms')
+let errors = []
 
-const inputList = form.querySelectorAll("input")
-
-console.log(inputList)
-
-
-const checkInput = (id) => {
-    const input = document.querySelector(id)
-
-    if (input.value.trim() === '') {
-        input.classList.add('is-invalid')
-    }
-    else {
-        input.classList.remove('is-invalid')
-    }
-}
-
-form.addEventListener('submit', e => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-    checkInput(".validation-feedback");
-})
+    checkInput();
+    errors.forEach((error)=>{
+        console.log("Invalid field:", error);
+    })
+   
+});
+
+const checkInput = () => {
+    const firstNameValue = firstName.value.trim();
+    const lastNameValue = lastName.value.trim();
+    const emailValue = email.value.trim();
+    const passwordValue = password.value.trim();
+    const password2Value = password2.value.trim();
+    
+
+
+    if (firstNameValue === ''){
+    console.log('enter first name');
+    errorMessage.classList.add("is-invalid")
+    errors.push("First Name")
+    document.getElementById("firstName").style.borderColor = "red";
+}
+    else{
+    errors.splice("First Name")
+}
+    if(!terms.checked)
+{
+    console.log('You must agree to the terms first.');
+    errorMessage.classList.add("is-invalid")
+    errors.push("Terms unchecked")
+}
+    else{
+    errors.splice("Terms unchecked")
+}
+    if (errors <= 0){
+    errorMessage.classList.remove("is-invalid")
+    console.log('Success');
+}
+}
+//     if (lastNameValue === '')
+//     {console.log('enter last name');}
+// }
