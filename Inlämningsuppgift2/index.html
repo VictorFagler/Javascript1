@@ -12,7 +12,7 @@
 <body>
   <div class="wrapper">
 
-    <form id="validationForm" class="validation-form">
+    <form id="validationForm" class="validation-form" novalidate>
       <div class="headline">
         <h1>Validation Form</h1>
       </div>
@@ -49,13 +49,13 @@
         </div>
 
         <div>
-          <button class="btn btn-block btn-primary">Validate</button>
+          <button class="btn btn-block btn-primary" id="btn">Validate</button>
         </div>
 
       </div>
 
       <div class="validation-feedback" id="validation-feedback">
-        <p id="errorMessage">Alla fält måste vara korrekt ifyllda!</p>
+        <p id="errorMessage" class="d-none">Alla fält måste vara korrekt ifyllda!</p>
       </div>
 
 

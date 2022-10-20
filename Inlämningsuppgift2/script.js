@@ -1,70 +1,103 @@
-// För godkänt ska du göra följande:
-
-// Förhindra sidan att laddas om när formuläret ska valideras.
-// Validera alla fälten så att alla fält måste ha ett innehåll och checkrutan måste klickas i
-// Om något av fälten inte är ifyllda eller checkrutan inte är iklickad så ska du logga ett felmeddelande i consolen där du skriver att någonting har gått fel.
-// Om valideringen går igenom så ska du istället logga ut ett success meddelande i consolen och skapa ett user objekt som har följande fält: firstName, lastName, email, password.
-// Detta objekt ska också skrivas ut i consolen
-
-
-// För väl godkänt ska du även göra följande:
-
-// Alla fälten ska valideras så att korrekt information skriv in. ( email måste vara en emailadress, lösenorden måste matcha varandra samt ha en längd på minst 6 och ett namn ska inte få vara kortare än 2 bokstäver samt inte innehålla några siffror)
-// Om det är något fel i valideringen så ska du visa texten i validation-feedback diven längst ner i formuläret genom att ta bort klassen d-none på p taggen.
-// Du ska även consol logga ett meddelande med vilket av fälten som inte är korrekt ifyllda.
-// När man har fyllt i alla fälten korrekt och trycker på "validate" så ska du dölja felmeddelandet längst ner igen och även skriva ut ett success meddelande i consolen och skapa ett user objekt som har följande fält: firstName, lastName, email, password. Detta objekt ska också skrivas ut i consolen
-
 const form = document.getElementById('validationForm');
 const firstName = document.getElementById('firstName');
 const lastName = document.getElementById('lastName');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('repeatPassword');
-const errorMessage = document.getElementById('validation-feedback');
 const terms = document.getElementById('terms')
-let errors = []
+const btn = document.getElementById('byn')
 
+// ERROR & SUCCESS
+const setError = (input) => {
+    const errorMessage = document.querySelector('#errorMessage')
+    input.classList.add('is-invalid')
+    input.classList.remove('is-valid')
+    errorMessage.classList.remove('d-none')
+    input.focus(input);
+    console.log('Invalid input-field: ' + input.getAttribute('id'))
+    return false;
+}
+const setSuccess = (input) => {
+    errorMessage.classList.add('d-none')
+    input.classList.add('is-valid')
+    input.classList.remove('is-invalid')
+    return true;
+}
+// VALIDERING
+const validateFirstName = (input) => {
+    const regFirstName = /\d/;
+    if (input.value.trim() === '') {
+        return setError(firstName);
+    } else if (regFirstName.test(input.value) || input.value.length <= 2) {
+        return setError(firstName);
+    }
+    return setSuccess(firstName)
+}
+const validateLastName = (input) => {
+    const regLastName = /\d/;
+    if (input.value.trim() === '') {
+        return setError(lastName);
+    } else if (regLastName.test(input.value) || input.value.length <= 2) {
+        return setError(lastName);
+    }
+    return setSuccess(lastName)
+}
+const validateEmail = (input) => {
+    const mailformat = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    if (input.value.trim() === '') {
+        return setError(email);
+    } else if (!mailformat.test(input.value)) {
+        return setError(email);
+    }
+    return setSuccess(email)
+}
+const validatePassword = (input) => {
+    if (input.value.trim() === '') {
+        return setError(password);
+    } else if (password.value.length <= 6) {
+        return setError(password);
+    }
+    return setSuccess(password)
+}
+const validatePassword2 = (input) => {
+    if (input.value.length < 6 || input.value != password.value) {
+        return setError(password2);
+    }
+    return setSuccess(password2)
+}
+const validateTerms = (terms) => {
+    if (!terms.checked) {
+        return setError(terms);
+    }
+    return setSuccess(terms)
+}
+//Check inputs & User creation
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    checkInput();
-    errors.forEach((error)=>{
-        console.log("Invalid field:", error);
-    })
-   
-});
+    console.clear();
+    validateFirstName(firstName)
+    validateLastName(lastName)
+    validateEmail(email)
+    validatePassword(password)
+    validatePassword2(password2)
+    validateTerms(terms)
 
-const checkInput = () => {
-    const firstNameValue = firstName.value.trim();
-    const lastNameValue = lastName.value.trim();
-    const emailValue = email.value.trim();
-    const passwordValue = password.value.trim();
-    const password2Value = password2.value.trim();
-    
-
-
-    if (firstNameValue === ''){
-    console.log('enter first name');
-    errorMessage.classList.add("is-invalid")
-    errors.push("First Name")
-    document.getElementById("firstName").style.borderColor = "red";
-}
-    else{
-    errors.splice("First Name")
-}
-    if(!terms.checked)
-{
-    console.log('You must agree to the terms first.');
-    errorMessage.classList.add("is-invalid")
-    errors.push("Terms unchecked")
-}
-    else{
-    errors.splice("Terms unchecked")
-}
-    if (errors <= 0){
-    errorMessage.classList.remove("is-invalid")
-    console.log('Success');
-}
-}
-//     if (lastNameValue === '')
-//     {console.log('enter last name');}
-// }
+    if (firstName.classList.contains('is-valid') &&
+        lastName.classList.contains('is-valid') &&
+        email.classList.contains('is-valid') &&
+        password.classList.contains('is-valid') &&
+        password2.classList.contains('is-valid') &&
+        terms.classList.contains('is-valid')) {
+        const user = {
+            FirstName: firstName.value,
+            LastName: lastName.value,
+            Email: email.value,
+            Password: password.value,
+        }
+        console.log('Success! New user created:')
+        console.table(user)
+    }
+    else {
+        errorMessage.classList.remove('d-none') //Quickfix om man ändrar input i övre fält efter allt är godkänt.
+    }
+})

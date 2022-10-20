@@ -70,11 +70,33 @@ body {
 .validation-feedback {
   margin-top: 1rem;
   text-align: center;
-  display: none;
 }
 #errorMessage {
   color: red;
 }
+.invalid-feedback {
+  color: #BE1B1B;
+  font-size: .9rem;
+  display: none;
+}
+.is-valid {
+  outline: 1px solid #20BE1B;
+}
 .is-invalid {
-   display: block;
+  border: 1px solid firebrick;
+  outline: 1px solid firebrick;
+}
+.form.control .is-invalid {
+  border: 3px solid #BE1B1B;
+  outline: 1px solid firebrick;
+}
+input[type="checkbox"].is-invalid,
+input[type="checkbox"].is-valid {
+  outline: none;
+}
+.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+.d-none {
+  display: none;
 }
